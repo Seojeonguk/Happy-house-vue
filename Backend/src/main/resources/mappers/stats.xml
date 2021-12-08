@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.happyhouse.dao.StatsDao">
+	<select id="MainMostExpensive" resultType="HousedealDto">
+		SELECT aptName, dong, CAST(dealamount AS SIGNED INTEGER) AS dealamount
+FROM housedeal
+		ORDER BY dealamount DESC LIMIT 5
+	</select>
+	
+	<select id="MainCheapest" resultType="HousedealDto">
+		select aptname, dong, CAST(dealamount AS SIGNED INTEGER) AS dealamount
+		from housedeal
+		order by dealamount limit 5
+	</select>
+
+	<select id="AvgDong" resultType="HousedealDto">
+		select hi.code, round(avg(hd.dealamount), 3) as dealamount
+		from housedeal hd join houseinfo hi
+        on hd.infono = hi.no
+        group by hi.code
+		order by avg(dealAmount) desc
+	</select>
+	
+	<select id="BuildYearDong" resultType="HousedealDto">
+		select code, truncate(avg(buildyear), 0) as buildyear
+		from houseinfo group by code 
+		order by avg(buildyear) desc;
+	</select>
+	
+	<select id="MostExpensive" resultType="HousedealDto">
+		select aptname, dong, CAST(dealamount AS SIGNED INTEGER) AS dealamount
+		from housedeal
+		order by dealamount desc limit 50
+	</select>
+	
+	<select id="Cheapest" resultType="HousedealDto">
+		select aptname, dong, CAST(dealamount AS SIGNED INTEGER) AS dealamount
+		from housedeal
+		order by dealamount limit 50
+	</select>
+</mapper>
